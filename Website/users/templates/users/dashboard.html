@@ -1,0 +1,74 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} <title>Dashboard</title> {% endblock %}
+
+{% block content %}
+
+
+<div >
+
+    <div class="box">
+        <center> <label>Voltage  </label></center>
+        <div id="g1" class="gauge border-bottom "></div>
+    </div>
+
+    <div class="box mt-2">
+        <center> <label>Current </label></center>
+        <div id="g2" class="gauge border-bottom "></div>
+    </div>
+</div>
+
+<!--the  gauge javascript-->
+<script>
+      var g1 = new JustGage({
+        id: 'g1',
+        value: {{ voltage }},
+        min: 0,
+        max: 10,
+        symbol: 'Kv',
+        pointer: true,
+        title:"Voltage",
+        decimals:2,
+        pointerOptions: {
+          toplength: -15,
+          bottomlength: 10,
+          bottomwidth: 12,
+          color: '#8e8e93',
+          stroke: '#ffffff',
+          stroke_width: 3,
+          stroke_linecap: 'round'
+        },
+        gaugeWidthScale: 0.6,
+        counter: true,
+        relativeGaugeSize: true
+});
+
+      var g2 = new JustGage({
+        id: 'g2',
+        value: {{ current }},
+        min: 0,
+        max: 50,
+        symbol: 'A',
+        decimals:2,
+        pointer: true,
+        pointerOptions: {
+          toplength: -15,
+          bottomlength: 10,
+          bottomwidth: 12,
+          color: '#8e8e93',
+          stroke: '#ffffff',
+          stroke_width: 3,
+          stroke_linecap: 'round'
+        },
+        gaugeWidthScale: 0.6,
+        counter: true,
+        relativeGaugeSize: true
+      });
+
+       setInterval(function() {
+        g1.refresh({{ voltage }});
+        g2.refresh({{ current }});
+      }, 5000);
+</script>
+{% endblock %}
